@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sound</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>sound</h1>
+    <!-- <div class="controls"></div> -->
+    <div id="controls">
+        <!-- 再生など -->
+        <button onclick="playSound()">Play Sound</button>
+        <button onclick="stopSound()">Stop Sound</button>
+
+        <!-- ローパスフィルタのカットオフ周波数を調整するスライダー -->
+        <label for="filterSlider">Low-Pass Filter Frequency:</label>
+        <input type="range" id="filterSlider" min="20" max="20000" value="20000" step="1" 
+        oninput="updateFilterFrequency(this.value)" disabled>
+
+        <!-- フィルターのオン/オフを切り替えるボタン -->
+        <button id="toggleFilterButton" onclick="toggleFilter()" disabled>Enable Filter</button>
+    </div>
+
+        <!-- 波形を表示するためのキャンバス -->
+        <canvas id="waveformCanvas" width="400" height="200"></canvas>    
+        <script src="script.js"></script>
+
+</body>
+</html>

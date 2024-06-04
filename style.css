@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px;
+    position: relative;
+}
+
+.controls { 
+    position: absolute;
+    top: 20px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button:active {
+    background-color: #ddd;
+}
+
+button:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+button2 {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button2:active {
+    background-color: #ddd;
+}
+
+button2:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+#filterSlider {
+    width: 300px;
+    margin-top: 20px;
+    margin: 0 10px;
+}
+
+canvas {
+    position: absolute; 
+    top: 300px; /* 追記: 上からの距離 */
+    left: 50%; /* 追記: 左からの距離 */
+    transform: translateX(-50%); /* 追記: 中央揃え */
+    border: 1px solid #ccc;
+}
