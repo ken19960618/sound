@@ -33,23 +33,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
-button2 {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 10px;
-}
-
-button2:active {
-    background-color: #ddd;
-}
-
-button2:disabled {
-    background-color: #f0f0f0;
-    cursor: not-allowed;
-}
-
-#filterSlider {
+#filterSlider, #gainSlider {
     width: 300px;
     margin-top: 20px;
     margin: 0 10px;

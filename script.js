@@ -7,6 +7,7 @@ let dataArray;
 let bufferLength;
 let animationId;
 let isFilterEnabled = false;
+let gainNode;
 
 function playSound() {
     alert('Sound played!');
@@ -35,6 +36,11 @@ async function playSound() {
         bufferLength = analyser.frequencyBinCount; // FFTの結果のバッファサイズ
         dataArray = new Uint8Array(bufferLength); // データを格納する配列
 
+        // ゲインノードを作成   
+        gainNode = audioContext.createGain();
+        gainNode.gain.value = 1; // 初期値を1に設定
+        console.log("GainNode created.");
+
         // 波形を描画
         drawWaveform();
 
@@ -42,11 +48,15 @@ async function playSound() {
         document.getElementById('filterSlider').disabled = false;
         document.getElementById('toggleFilterButton').disabled = false;
 
+        document.getElementById('gainSlider').disabled = false;
+        document.getElementById('gaintoggleFilter').disabled = false;
+
         // 初期状態ではフィルターなし
         source.connect(analyser);
         source.connect(audioContext.destination);
         analyser.connect(audioContext.destination);
         console.log("Analyser connected.");
+        gainNode.connect(analyser);
         
          
 
