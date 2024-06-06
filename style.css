@@ -33,10 +33,20 @@ button:disabled {
     cursor: not-allowed;
 }
 
-#filterSlider, #gainSlider {
+#filterSlider, #gainSlider ,#distortionSlider {
     width: 300px;
-    margin-top: 20px;
+    margin-top: 20px; 
     margin: 0 10px;
+}
+
+#toggleGainButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
 
 canvas {
