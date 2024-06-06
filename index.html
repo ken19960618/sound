@@ -9,11 +9,8 @@
 <body>
     <h1>sound</h1>
     <div id="controls">
-        <!-- 再生など -->
-        <button onclick="playSound()">Play Sound</button>
-        <button onclick="stopSound()">Stop Sound</button>
-
-        <!-- ローパスフィルタのカットオフ周波数を調整するスライダー -->
+        <button id="playButton" onclick="playSound()">Play Sound</button>
+        <button id="stopButton" onclick="stopSound()">Stop Sound</button>
         <label for="filterSlider">Low-Pass Filter Frequency:</label>
         <input type="range" id="filterSlider" min="20" max="20000" value="20000" step="1" oninput="updateFilterFrequency(this.value)" disabled>
         <label for="gainSlider">Gain:</label>
@@ -21,6 +18,8 @@
         <label for="distortionSlider">Distorition Amount:</label>
         <input type="range" id="distortionSlider" min="0" max="400" value="0" step="1" oninput="updateDistortionAmount(this.value)" disabled>
         <button id="toggleFilterButton" onclick="toggleFilter()" disabled>Enable Filter</button>
+        <button id="toggleGainButton" onclick="toggleGain()" disabled>Enable Gain</button> 
+        <button id="toggleDistortionButton" onclick="toggleDistortion()" disabled>Enable Distortion</button>
     </div>
     <canvas id="waveformCanvas" width="800" height="200"></canvas>
     <script src="script.js"></script> 
