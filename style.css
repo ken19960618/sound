@@ -5,16 +5,18 @@ body {
     position: relative;
 }
 
-.controls { 
-    position: absolute;
-    top: 20px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    margin-bottom: 20px;
+#controls {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 button {
@@ -33,9 +35,8 @@ button:disabled {
     cursor: not-allowed;
 }
 
-#filterSlider, #gainSlider ,#distortionSlider {
+#filterSlider, #gainSlider, #distortionSlider {
     width: 300px;
-    margin-top: 20px; 
     margin: 0 10px;
 }
 
@@ -49,10 +50,17 @@ button:disabled {
     border-radius: 5px;
 }
 
+#reverbTimeSlider, #reverbMixSlider,
+#delayTimeSlider, #delayFeedbackSlider,
+#toneFreqSlider, #toneGainSlider {
+    width: 300px;
+    margin: 0 10px;
+}
+
 canvas {
-    position: absolute; 
-    top: 300px; /* 追記: 上からの距離 */
-    left: 50%; /* 追記: 左からの距離 */
-    transform: translateX(-50%); /* 追記: 中央揃え */
+    width: 100%;
+    max-width: 800px;
+    height: auto;
     border: 1px solid #ccc;
+    margin-top: 20px;
 }

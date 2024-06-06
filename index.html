@@ -9,19 +9,56 @@
 <body>
     <h1>sound</h1>
     <div id="controls">
-        <button id="playButton" onclick="playSound()">Play Sound</button>
-        <button id="stopButton" onclick="stopSound()">Stop Sound</button>
-        <label for="filterSlider">Low-Pass Filter Frequency:</label>
-        <input type="range" id="filterSlider" min="20" max="20000" value="20000" step="1" oninput="updateFilterFrequency(this.value)" disabled>
-        <label for="gainSlider">Gain:</label>
-        <input type="range" id="gainSlider" min="0" max="2" value="1" step="0.01" oninput="updateGain(this.value)" disabled>
-        <label for="distortionSlider">Distorition Amount:</label>
-        <input type="range" id="distortionSlider" min="0" max="400" value="0" step="1" oninput="updateDistortionAmount(this.value)" disabled>
-        <button id="toggleFilterButton" onclick="toggleFilter()" disabled>Enable Filter</button>
-        <button id="toggleGainButton" onclick="toggleGain()" disabled>Enable Gain</button> 
-        <button id="toggleDistortionButton" onclick="toggleDistortion()" disabled>Enable Distortion</button>
+
+        <div class="control-group">
+            <button id="playButton" onclick="playSound()">Play Sound</button>
+            <button id="stopButton" onclick="stopSound()">Stop Sound</button>
+        </div>
+
+        <div class="control-group">
+            <label for="filterSlider">Low-Pass Filter Frequency:</label>
+            <input type="range" id="filterSlider" min="20" max="20000" value="20000" step="1" oninput="updateFilterFrequency(this.value)" disabled>
+            <button id="toggleFilterButton" onclick="toggleFilter()" disabled>Enable Filter</button>
+        </div>
+
+        <div class="control-group">
+            <label for="gainSlider">Gain:</label>
+            <input type="range" id="gainSlider" min="0" max="2" value="1" step="0.01" oninput="updateGain(this.value)" disabled>
+            <button id="toggleGainButton" onclick="toggleGain()" disabled>Enable Gain</button>
+        </div>
+
+        <div class="control-group">
+            <label for="distortionSlider">Distortion Amount:</label>
+            <input type="range" id="distortionSlider" min="0" max="400" value="0" step="1" oninput="updateDistortionAmount(this.value)" disabled>
+            <button id="toggleDistortionButton" onclick="toggleDistortion()" disabled>Enable Distortion</button>
+        </div>
+
+        <div class="control-group">
+            <label for="reverbTimeSlider">Reverb Time:</label>
+            <input type="range" id="reverbTimeSlider" min="0" max="10" value="1" step="0.1" oninput="updateReverbTime(this.value)" disabled>
+            <label for="reverbMixSlider">Reverb Mix:</label>
+            <input type="range" id="reverbMixSlider" min="0" max="1" value="0.5" step="0.01" oninput="updateReverbMix(this.value)" disabled>
+            <button id="toggleReverbButton" onclick="toggleReverb()" disabled>Enable Reverb</button>
+        </div>
+
+        <div class="control-group">
+            <label for="delayTimeSlider">Delay Time:</label>
+            <input type="range" id="delayTimeSlider" min="0" max="5" value="0.5" step="0.01" oninput="updateDelayTime(this.value)" disabled>
+            <label for="delayFeedbackSlider">Delay Feedback:</label>
+            <input type="range" id="delayFeedbackSlider" min="0" max="1" value="0.5" step="0.01" oninput="updateDelayFeedback(this.value)" disabled>
+            <button id="toggleDelayButton" onclick="toggleDelay()" disabled>Enable Delay</button>
+        </div>
+
+        <div class="control-group">
+            <label for="toneFreqSlider">Tone Frequency:</label>
+            <input type="range" id="toneFreqSlider" min="20" max="20000" value="440" step="1" oninput="updateToneFreq(this.value)" disabled>
+            <label for="toneGainSlider">Tone Gain:</label>
+            <input type="range" id="toneGainSlider" min="0" max="1" value="0.5" step="0.01" oninput="updateToneGain(this.value)" disabled>
+            <button id="toggleToneButton" onclick="toggleTone()" disabled>Enable Tone</button>
+        </div>
+        
     </div>
     <canvas id="waveformCanvas" width="800" height="200"></canvas>
-    <script src="script.js"></script> 
+    <script src="script.js"></script>
 </body>
 </html>

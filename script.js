@@ -12,18 +12,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let isFilterEnabled = false;
     let isGainEnabled = false;
     let isDistortionEnabled = false;
+    let reverbNode, delayNode, feedbackGainNode, toneNode;
+    let isReverbEnabled = false, isDelayEnabled = false, isToneEnabled = false;
 
     function makeDistortionCurve(amount) {
-        const k = typeof amount === 'number' ? amount : 50;
+        const k = amount;
         const n_samples = 44100;
         const curve = new Float32Array(n_samples);
         const deg = Math.PI / 180;
         for (let i = 0; i < n_samples; ++i) {
             const x = (i * 2) / n_samples - 1;
-            curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
+            curve[i] = (3 + k) * Math.pow(x, 3);
         }
         return curve;
     }
+    
+    
 
     window.playSound = async function() { // グローバルにアクセスできるように変更
         try {
@@ -215,6 +219,75 @@ document.addEventListener("DOMContentLoaded", (event) => {
             isDistortionEnabled = false;
         }
     }
+
+    function toggleReverb() {
+        if (!isReverbEnabled) {
+            reverbNode = audioContext.createConvolver();
+            // Load impulse response for reverb
+            fetch('impulse-response.wav')
+                .then(response => response.arrayBuffer())
+                .then(data => audioContext.decodeAudioData(data, buffer => reverbNode.buffer = buffer));
+            reconnectNodes();
+    
+            document.getElementById('toggleReverbButton').textContent = 'Disable Reverb';
+            isReverbEnabled = true;
+        } else {
+            reverbNode.disconnect();
+            reverbNode = null;
+            reconnectNodes();
+    
+            document.getElementById('toggleReverbButton').textContent = 'Enable Reverb';
+            isReverbEnabled = false;
+        }
+    }
+    
+    function toggleDelay() {
+        if (!isDelayEnabled) {
+            delayNode = audioContext.createDelay(5.0);
+            delayNode.delayTime.value = document.getElementById('delayTimeSlider').value;
+    
+            feedbackGainNode = audioContext.createGain();
+            feedbackGainNode.gain.value = document.getElementById('delayFeedbackSlider').value;
+    
+            delayNode.connect(feedbackGainNode);
+            feedbackGainNode.connect(delayNode);
+    
+            reconnectNodes();
+    
+            document.getElementById('toggleDelayButton').textContent = 'Disable Delay';
+            isDelayEnabled = true;
+        } else {
+            delayNode.disconnect();
+            feedbackGainNode.disconnect();
+            delayNode = null;
+            feedbackGainNode = null;
+            reconnectNodes();
+    
+            document.getElementById('toggleDelayButton').textContent = 'Enable Delay';
+            isDelayEnabled = false;
+        }
+    }
+    
+    function toggleTone() {
+        if (!isToneEnabled) {
+            toneNode = audioContext.createBiquadFilter();
+            toneNode.type = 'lowshelf';
+            toneNode.frequency.value = document.getElementById('toneFreqSlider').value;
+            toneNode.gain.value = document.getElementById('toneGainSlider').value;
+    
+            reconnectNodes();
+    
+            document.getElementById('toggleToneButton').textContent = 'Disable Tone';
+            isToneEnabled = true;
+        } else {
+            toneNode.disconnect();
+            toneNode = null;
+            reconnectNodes();
+    
+            document.getElementById('toggleToneButton').textContent = 'Enable Tone';
+            isToneEnabled = false;
+        }
+    }
     
     window.updateFilterFrequency = function(value) { 
         if (lowpassFilter) {
@@ -237,27 +310,84 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     }
 
+    function updateReverbTime(value) {
+        if (reverbNode) {
+            reverbNode.decay = value;
+            console.log("Reverb time updated to:", value);
+        }
+    }
+    
+    function updateReverbMix(value) {
+        if (reverbNode) {
+            reverbNode.wet.value = value;
+            console.log("Reverb mix updated to:", value);
+        }
+    }
+    
+    function updateDelayTime(value) {
+        if (delayNode) {
+            delayNode.delayTime.value = value;
+            console.log("Delay time updated to:", value);
+        }
+    }
+    
+    function updateDelayFeedback(value) {
+        if (feedbackGainNode) {
+            feedbackGainNode.gain.value = value;
+            console.log("Delay feedback updated to:", value);
+        }
+    }
+    
+    function updateToneFreq(value) {
+        if (toneNode) {
+            toneNode.frequency.value = value;
+            console.log("Tone frequency updated to:", value);
+        }
+    }
+    
+    function updateToneGain(value) {
+        if (toneNode) {
+            toneNode.gain.value = value;
+            console.log("Tone gain updated to:", value);
+        }
+    }
+
     function reconnectNodes() {
         if (source) {
             source.disconnect();
-
+    
             let node = source;
-
+    
             if (isFilterEnabled && lowpassFilter) {
                 node.connect(lowpassFilter);
                 node = lowpassFilter;
             }
-
+    
             if (isGainEnabled && gainNode) {
                 node.connect(gainNode);
                 node = gainNode;
             }
-
+    
             if (isDistortionEnabled && waveShaperNode) {
                 node.connect(waveShaperNode);
                 node = waveShaperNode;
             }
-
+    
+            if (isReverbEnabled && reverbNode) {
+                node.connect(reverbNode);
+                node = reverbNode;
+            }
+    
+            if (isDelayEnabled && delayNode) {
+                node.connect(delayNode);
+                node = delayNode;
+            }
+    
+            if (isToneEnabled && toneNode) {
+                node.connect(toneNode);
+                node = toneNode;
+            }
+    
             node.connect(analyser);
         }
     }
